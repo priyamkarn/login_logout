@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const connectionString = 'mongodb+srv://priyamkarn54:altruist@cluster0.ckxgc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const connectionString = 'db_url';
 
 // Connect to MongoDB
 mongoose.connect(connectionString)
