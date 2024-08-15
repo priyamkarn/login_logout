@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
         return res.status(403).json({ message: "No token provided" });
     }
 
-    jwt.verify(token, "priyam", (err, user) => {
+    jwt.verify(token, "jwt_secret", (err, user) => {
         if (err) {
             console.log('Token verification failed:', err);
             return res.status(403).json({ message: "Invalid token" });
