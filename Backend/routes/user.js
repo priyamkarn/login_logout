@@ -10,7 +10,6 @@ const signupSchema = zod.object({
     email: zod.string().email(),
     password: zod.string().min(8)
 });
-
 router.post('/signup', async (req, res) => {
     const result = signupSchema.safeParse(req.body);
     if (!result.success) {
@@ -18,8 +17,7 @@ router.post('/signup', async (req, res) => {
             message: "Incorrect data submitted",
             errors: result.error.errors 
         });
-    }
-    
+    } 
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -32,7 +30,7 @@ router.post('/signup', async (req, res) => {
     const user = await User.create({ name, email, password: hashedPassword });
     
     const token = jwt.sign({ userId: user._id },"jwt_secret", { expiresIn: '1h' });
-    res.cookie('authToken', token, { httpOnly: true, secure: true, sameSite: 'none' });
+    res.cookie('authToken', token, { httpOnly: true, secure: false, sameSite: 'lax' });
     res.json({
         message: "User created successfully"
     });
@@ -67,7 +65,7 @@ router.post('/login', async (req, res) => {
     }
     
     const token = jwt.sign({ userId: user._id },"jwt_secret", { expiresIn: '1h' });
-    res.cookie('authToken', token, { httpOnly: true, secure: false, sameSite: 'none' });
+    res.cookie('authToken', token, { httpOnly: true, secure: false, sameSite: 'lax' });
     res.json({
         message: "Login successful"
     });
