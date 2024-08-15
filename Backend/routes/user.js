@@ -31,7 +31,7 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
     
-    const token = jwt.sign({ userId: user._id },"priyam", { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id },"jwt_secret", { expiresIn: '1h' });
     res.cookie('authToken', token, { httpOnly: true, secure: true, sameSite: 'none' });
     res.json({
         message: "User created successfully"
@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
         });
     }
     
-    const token = jwt.sign({ userId: user._id },"priyam", { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id },"jwt_secret", { expiresIn: '1h' });
     res.cookie('authToken', token, { httpOnly: true, secure: false, sameSite: 'none' });
     res.json({
         message: "Login successful"
